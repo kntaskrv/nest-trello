@@ -1,3 +1,5 @@
+import { Column } from 'src/columns/column.entity';
+import { Exclude } from 'class-transformer';
 import {
   Unique,
   Entity,
@@ -16,5 +18,9 @@ export class User {
   username: string;
 
   @ColumnORM()
+  @Exclude()
   password: string;
+
+  @OneToMany((type) => Column, (columns) => columns.user)
+  columns: Column[];
 }
