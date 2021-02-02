@@ -7,6 +7,13 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
 } from 'typeorm';
+import {
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+  IsNotEmpty,
+} from 'class-validator';
 
 @Entity()
 @Unique(['username'])
@@ -14,11 +21,16 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @IsNotEmpty()
+  @MinLength(5)
+  @IsString()
   @ColumnORM()
   username: string;
 
+  @IsNotEmpty()
+  @MinLength(5)
   @ColumnORM()
-  @Exclude()
+  // @Exclude()
   password: string;
 
   @OneToMany((type) => Column, (columns) => columns.user)
