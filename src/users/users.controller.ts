@@ -23,25 +23,3 @@ import { UsersService } from './users.service';
 export class UsersController implements CrudController<User> {
   constructor(public service: UsersService) {}
 }
-
-@Crud({
-  model: {
-    type: Column,
-  },
-  params: {
-    userId: {
-      field: 'user',
-      type: 'number',
-    },
-    id: {
-      field: 'id',
-      type: 'number',
-      primary: true,
-    },
-  },
-})
-@UseGuards(JwtAuthGuard)
-@Controller('/users/:userId/columns')
-export class UserColumnsController {
-  constructor(public service: UserColumnsService) {}
-}

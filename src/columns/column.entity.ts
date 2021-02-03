@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinTable,
+  JoinColumn,
 } from 'typeorm';
 import {
   IsOptional,
@@ -28,5 +29,9 @@ export class Column {
   title: string;
 
   @ManyToOne((type) => User, (user) => user.columns)
+  @JoinColumn({ name: 'userId' })
   user: User;
+
+  @ColumnORM()
+  userId: User['id'];
 }
