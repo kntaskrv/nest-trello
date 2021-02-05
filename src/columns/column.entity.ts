@@ -7,6 +7,7 @@ import {
   ManyToOne,
   JoinTable,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import {
   IsOptional,
@@ -15,6 +16,7 @@ import {
   MinLength,
   IsNotEmpty,
 } from 'class-validator';
+import { Card } from 'src/cards/card.entity';
 
 @Entity()
 @Unique(['title'])
@@ -34,4 +36,7 @@ export class Column {
 
   @ColumnORM()
   userId: User['id'];
+
+  @OneToMany((type) => Card, (cards) => cards.column)
+  cards: Card[];
 }

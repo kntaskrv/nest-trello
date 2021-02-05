@@ -1,6 +1,14 @@
-import { UseGuards } from '@nestjs/common';
+import { Param, UseGuards } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
-import { Crud, CrudController } from '@nestjsx/crud';
+import {
+  Crud,
+  CrudController,
+  CrudRequest,
+  Override,
+  ParsedBody,
+  ParsedRequest,
+} from '@nestjsx/crud';
+import { request } from 'express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { OwnerGuard } from 'src/users/user.guard';
 import { Column } from './column.entity';
@@ -50,4 +58,16 @@ export class ColumnsController implements CrudController<Column> {
 @Controller('/users/:userId/columns')
 export class UserColumnsController {
   constructor(public service: UserColumnsService) {}
+
+  get base(): CrudController<Column> {
+    return this;
+  }
+
+  @Override()
+  createOne(
+    @ParsedRequest() req: CrudRequest,
+    @ParsedBody() dto: Column,
+  ) {
+    return this.base.createOneBase(req, dto);
+  }
 }
