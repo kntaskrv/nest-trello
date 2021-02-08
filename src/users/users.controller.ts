@@ -11,6 +11,7 @@ import { UsersService } from './users.service';
     type: User,
   },
   query: {
+    exclude: ['password'],
     join: {
       columns: {
         eager: true,

@@ -1,11 +1,13 @@
 import { Column } from 'src/columns/column.entity';
-import { Exclude } from 'class-transformer';
+import { classToPlain, Exclude } from 'class-transformer';
+import { Comment } from 'src/comment/comment.entity';
 import {
   Unique,
   Entity,
   Column as ColumnORM,
   PrimaryGeneratedColumn,
   OneToMany,
+  MongoRepository,
 } from 'typeorm';
 import {
   IsOptional,
@@ -29,10 +31,12 @@ export class User {
 
   @IsNotEmpty()
   @MinLength(5)
-  @ColumnORM()
-  // @Exclude()
+  @ColumnORM({ nullable: true })
   password: string;
 
   @OneToMany((type) => Column, (columns) => columns.user)
   columns: Column[];
+
+  @OneToMany((type) => Comment, (comments) => comments.user)
+  comments: Comment[];
 }

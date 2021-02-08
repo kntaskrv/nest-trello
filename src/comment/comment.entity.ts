@@ -8,6 +8,7 @@ import {
   JoinTable,
   JoinColumn,
   OneToMany,
+  Column,
 } from 'typeorm';
 import {
   IsOptional,
@@ -19,24 +20,26 @@ import {
 import { Card } from 'src/cards/card.entity';
 
 @Entity()
-@Unique(['title'])
-export class Column {
+export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
   @IsString()
-  @MinLength(5)
   @IsNotEmpty()
   @ColumnORM()
-  title: string;
+  text: string;
 
-  @ManyToOne((type) => User, (user) => user.columns)
+  @ManyToOne((type) => User, (user) => user.comments)
   user: User;
 
   @IsNotEmpty()
   @ColumnORM()
   userId: User['id'];
 
-  @OneToMany((type) => Card, (cards) => cards.column)
-  cards: Card[];
+  @ManyToOne((type) => Card, (card) => card.comments)
+  card: Card;
+
+  @IsNotEmpty()
+  @ColumnORM()
+  cardId: Card['id'];
 }
